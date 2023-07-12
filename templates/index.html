@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Music Recommendation</title>
+    <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Hind:300" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet" type="text/css">
+    <!-- Include Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        th {
+            text-align: left;
+        }
+    </style>
+</head>
+<body style="background-image: url('static/bg8.jpg'); background-repeat: no-repeat; background-size: cover;">
+    <div class="container py-5">
+        <form action="{{ url_for('recommend') }}" method="post">
+            <div class="input-group mb-3">
+                <input type="text" name="song" class="form-control" placeholder="Enter Song/Artist Name" required="required">
+                <button type="submit" class="btn btn-primary">Recommend</button>
+            </div>
+        </form>
+
+        {% if rec_songs %}
+        <h3>Here are top 10 recommended songs based on your provided input: "{{input_song}}"</h3>
+        {% endif %}
+
+        <div class="table-responsive">
+            {{ rec_songs | safe }}
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

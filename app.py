@@ -32,10 +32,12 @@ def calculate(song_name):
     if flag==False:
         return -1
     cluster_df = cluster_df[cluster_df['cluster']==song_cluster]
-    cluster_df['genre_var']=0
-    cluster_df.loc[cluster_df['track_genre']==song_genre, 'genre_var']=1
-    print(cluster_df['genre_var'].value_counts())
-    cluster_df=cluster_df.sort_values(by=['genre_var','popularity'], ascending=[False,False])
+    cluster_df['score']=0
+    cluster_df.loc[cluster_df['track_genre']==song_genre, 'score'] += 1
+    for artist in song_artist.split(';'):
+        cluster_df.loc[cluster_df['artists'].apply(lambda x: any(artist==s for s in x.split(';'))), 'score'] += 1
+    print(cluster_df['score'].value_counts())
+    cluster_df=cluster_df.sort_values(by=['score','popularity'], ascending=[False,False])
     rec_df=cluster_df[['track_name','artists','album_name','track_genre']]
     rec_df.rename(columns={'track_name':'Song','artists':'Artist','album_name':'Album','track_genre':'Genre'}, inplace=True)
     print(rec_df[:10])
